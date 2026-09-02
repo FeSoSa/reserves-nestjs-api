@@ -1,4 +1,5 @@
-import { Controller, Get, Post } from "@nestjs/common";
+import { Controller, Get, Post, Res } from "@nestjs/common";
+import { Response } from "express";
 import { MigrationsService } from "./migrations.service";
 
 @Controller('migrations')
@@ -11,8 +12,14 @@ export class MigrationsController {
   }
 
   @Post()
-  async postMigrations() {
-    return this.service.postMigrations()
+  async postMigrations(@Res() res: Response) {
+    const migratedMigrations = await this.service.postMigrations();
+
+    if (migratedMigrations.length > 0) {
+      return res.status(201).json(migratedMigrations);
+    }
+
+    return res.status(200).json(migratedMigrations);
   }
 
 }

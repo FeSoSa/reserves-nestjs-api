@@ -38,7 +38,6 @@ export class MigrationsService {
         migrationsTable: "pgmigrations"
       }
       const migratedMigrations = await migrationRunner(defaultMigrationOption)
-      dbClient.end();
       return migratedMigrations
     } finally {
       await dbClient.end();
