@@ -1,4 +1,4 @@
-const retry = require('async-retry');
+import retry from 'async-retry';
 
 async function waitForAllServices() {
   await waitForWebServer();

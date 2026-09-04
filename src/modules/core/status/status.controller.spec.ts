@@ -1,25 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { DatabaseModule } from 'src/infra/database/database.module';
 import orchestrator from 'test/orchestrator';
-import { StatusController } from './status.controller';
-import { StatusService } from './status.service';
 
 describe('StatusController', () => {
-  let statusController: StatusController;
-
   beforeAll(async () => {
     await orchestrator.waitForAllServices();
   });
 
-  beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      imports: [DatabaseModule],
-      controllers: [StatusController],
-      providers: [StatusService],
-    }).compile();
-
-    statusController = app.get<StatusController>(StatusController);
-  });
   it('GET to /status should return 200', async () => {
     const response = await fetch('http://localhost:3000/status');
     console.log(response.body);
