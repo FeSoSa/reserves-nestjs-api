@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Res } from "@nestjs/common";
-import { Response } from "express";
-import { MigrationsService } from "./migrations.service";
+import { Controller, Get, Post, Res } from '@nestjs/common';
+import { Response } from 'express';
+import { MigrationsService } from './migrations.service';
 
 @Controller('migrations')
 export class MigrationsController {
-  constructor(private readonly service: MigrationsService) { }
+  constructor(private readonly service: MigrationsService) {}
 
   @Get()
   async getMigrations() {
-    return this.service.getMigrations()
+    return this.service.getMigrations();
   }
 
   @Post()
@@ -21,5 +21,4 @@ export class MigrationsController {
 
     return res.status(200).json(migratedMigrations);
   }
-
 }

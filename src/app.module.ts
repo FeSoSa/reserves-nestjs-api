@@ -10,13 +10,13 @@ import { ReservesModule } from './modules/reserves/reserves.module';
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.env.development'],
-      isGlobal: true
+      isGlobal: true,
     }),
     DatabaseModule,
     ReservesModule,
-    CoreModule
+    CoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
