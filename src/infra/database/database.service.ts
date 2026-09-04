@@ -1,23 +1,25 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { Client, ClientConfig, QueryConfig, QueryResult } from "pg";
+import { Injectable, Logger } from '@nestjs/common';
+import { Client, ClientConfig, QueryConfig, QueryResult } from 'pg';
 
 @Injectable()
 export class DatabaseService {
-  private readonly logger = new Logger(DatabaseService.name)
+  private readonly logger = new Logger(DatabaseService.name);
 
-  async query<T = any>(queryObject: string | QueryConfig): Promise<QueryResult<T>> {
+  async query<T = any>(
+    queryObject: string | QueryConfig,
+  ): Promise<QueryResult<T>> {
     let client: Client | undefined;
 
     try {
       client = await this.getNewClient();
-      const result = await client.query<T>(queryObject)
-      return result
+      const result = await client.query<T>(queryObject);
+      return result;
     } catch (error) {
-      this.logger.error(error)
-      throw error
+      this.logger.error(error);
+      throw error;
     } finally {
       if (client) {
-        await client.end()
+        await client.end();
       }
     }
   }
@@ -29,11 +31,10 @@ export class DatabaseService {
       user: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      ssl: process.env.NODE_ENV == "production" ? true : false,
-    }
+      ssl: process.env.NODE_ENV == 'production' ? true : false,
+    };
     const client = new Client(config);
-    await client.connect()
-    return client
+    await client.connect();
+    return client;
   }
-
 }
