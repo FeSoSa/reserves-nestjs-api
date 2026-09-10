@@ -24,7 +24,8 @@
     "migrations:create": "node-pg-migrate -m src/infra/migrations create",
     "migrations:up": "node-pg-migrate -m src/infra/migrations --envPath .env.development up",
     "wait-for-postgres": "node src/infra/scripts/wait-for-postgres.js",
-    "prepare": "husky"
+    "prepare": "husky",
+    "commit": "cz"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -51,7 +52,9 @@
     "@types/supertest": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
+    "commitizen": "^4.3.0",
     "concurrently": "^9.2.4",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jest": "^28.14.0",
@@ -91,5 +94,10 @@
       "<rootDir>/jest.setup.ts"
     ],
     "testTimeout": 60000
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
