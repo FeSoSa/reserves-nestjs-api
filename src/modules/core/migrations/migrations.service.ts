@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import migrationRunner, { RunnerOption } from 'node-pg-migrate';
+import { RunnerOption, runner } from 'node-pg-migrate';
+import { RunMigration } from 'node_modules/node-pg-migrate/dist/legacy/migration';
 import { join } from 'path';
 import { DatabaseService } from 'src/infra/database/database.service';
 
@@ -7,7 +8,7 @@ import { DatabaseService } from 'src/infra/database/database.service';
 export class MigrationsService {
   constructor(private readonly db: DatabaseService) {}
 
-  async getMigrations() {
+  async getMigrations(): Promise<RunMigration[]> {
     const dbClient = await this.db.getNewClient();
     try {
       const defaultMigrationOption: RunnerOption = {
@@ -19,13 +20,13 @@ export class MigrationsService {
         migrationsTable: 'pgmigrations',
       };
       dbClient.end();
-      return await migrationRunner(defaultMigrationOption);
+      return await runner(defaultMigrationOption);
     } finally {
       await dbClient.end();
     }
   }
 
-  async postMigrations() {
+  async postMigrations(): Promise<RunMigration[]> {
     const dbClient = await this.db.getNewClient();
     try {
       const defaultMigrationOption: RunnerOption = {
@@ -36,7 +37,7 @@ export class MigrationsService {
         verbose: true,
         migrationsTable: 'pgmigrations',
       };
-      const migratedMigrations = await migrationRunner(defaultMigrationOption);
+      const migratedMigrations = await runner(defaultMigrationOption);
       return migratedMigrations;
     } finally {
       await dbClient.end();
